@@ -12,7 +12,7 @@ def collect_playlists_data(playlist_ids, access_token, output_csv="playlist_data
     # Combine all data into a single DataFrame
     combined_df = pd.concat(all_music_data, ignore_index=True)
     
-    # Save DataFrame to a CSV file
+    # to a csv file
     combined_df.to_csv(output_csv, index=False)
     print(f"Data saved to {output_csv}")
 

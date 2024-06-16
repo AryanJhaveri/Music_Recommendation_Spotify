@@ -69,7 +69,7 @@ def recommend():
     if recommendations is None:
         return render_template('index.html', error=f"'{input_song_name}' not found in the dataset.")
     
-    return render_template('index.html', tables=[recommendations.to_html(classes='data')], titles=recommendations.columns.values)
+    return render_template('index.html', tables=[recommendations.to_html(classes='data', index=False)], titles=recommendations.columns.values)
 
 if __name__ == '__main__':
     app.run(debug=True)

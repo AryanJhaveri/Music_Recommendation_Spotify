@@ -8,8 +8,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
 
 # Load your data
-music_df = pd.read_csv('path_to_your_music_dataset.csv')
-
+music_df = pd.read_csv('D:\\2_Extra\\Data Science\\Machine Learning Projects\\Music_Recommendation_Spotify\\playlist_data.csv')
+music_df= music_df.drop_duplicates()
 # Normalize the music features using Min-Max scaling
 scaler = MinMaxScaler()
 music_features = music_df[['Danceability', 'Energy', 'Key', 'Loudness', 'Mode', 'Speechiness', 'Acousticness', 'Instrumentalness', 'Liveness', 'Valence', 'Tempo']].values

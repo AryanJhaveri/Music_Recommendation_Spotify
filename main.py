@@ -3,7 +3,7 @@ from get_playlists import collect_playlists_data
 
 # List of playlist IDs
 playlist_ids = [
-    '0XViN0HyZ55Uc1GTQPXuos','18CPDY5QPack31L80UTI3l', '2lfbdA64XkpEZjD98IYoAa', '6IijFAKuyjWO5PM1V0DBPD','78TBcuceC80a4tLHgZDDaj' , '1djhe9t67kwT0GPl7noZBr' ,'6423RwGfIBXVrNBfyh2hcz' 
+    '7sTkp2X5Aq84v9w9UtfkaF','1Ax6quImLr6Ek6bpLO8qK4','2U5naKBJ5DN3oOPbuRiTem'
 ]
 
 # Obtain the access token

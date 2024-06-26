@@ -2,17 +2,31 @@
 import pandas as pd
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+import time
+import requests.exceptions
 
 def get_trending_playlist_data(playlist_id, access_token):
     # Set up Spotipy with the access token
     sp = spotipy.Spotify(auth=access_token)
-
-    # Get the tracks from the playlist
-    playlist_tracks = sp.playlist_tracks(playlist_id, fields='items(track(id, name, artists, album(id, name)))')
-
+    
+    # Initialize variables for pagination
+    results = sp.playlist_tracks(playlist_id, fields='items(track(id, name, artists, album(id, name))),next')
+    tracks = results['items']
+    while results['next']:
+        try:
+            results = sp.next(results)
+            tracks.extend(results['items'])
+        except spotipy.exceptions.SpotifyException as e:
+            if e.http_status == 429:
+                retry_after = int(e.headers.get('Retry-After', 1))
+                print(f"Rate limit exceeded, retrying in {retry_after} seconds...")
+                time.sleep(retry_after)
+            else:
+                raise e
+    
     # Extract relevant information and store in a list of dictionaries
     music_data = []
-    for track_info in playlist_tracks['items']:
+    for track_info in tracks:
         track = track_info['track']
         track_name = track['name']
         artists = ', '.join([artist['name'] for artist in track['artists']])
@@ -27,15 +41,29 @@ def get_trending_playlist_data(playlist_id, access_token):
         try:
             album_info = sp.album(album_id) if album_id != 'Not available' else None
             release_date = album_info['release_date'] if album_info else None
-        except:
-            release_date = None
+        except spotipy.exceptions.SpotifyException as e:
+            if e.http_status == 429:
+                retry_after = int(e.headers.get('Retry-After', 1))
+                print(f"Rate limit exceeded, retrying in {retry_after} seconds...")
+                time.sleep(retry_after)
+                album_info = sp.album(album_id) if album_id != 'Not available' else None
+                release_date = album_info['release_date'] if album_info else None
+            else:
+                raise e
 
         # Get popularity of the track
         try:
             track_info = sp.track(track_id) if track_id != 'Not available' else None
             popularity = track_info['popularity'] if track_info else None
-        except:
-            popularity = None
+        except spotipy.exceptions.SpotifyException as e:
+            if e.http_status == 429:
+                retry_after = int(e.headers.get('Retry-After', 1))
+                print(f"Rate limit exceeded, retrying in {retry_after} seconds...")
+                time.sleep(retry_after)
+                track_info = sp.track(track_id) if track_id != 'Not available' else None
+                popularity = track_info['popularity'] if track_info else None
+            else:
+                raise e
 
         # Add additional track information to the track data
         track_data = {

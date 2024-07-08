@@ -19,7 +19,6 @@ This project collects data from Spotify playlists and builds a music recommendat
   - [`main.py`](#mainpy)
   - [`app.py`](#apppy)
   - [`recommendation_system.ipynb`](#recommendation_systemipynb)
-- [License](#license)
 
 ## Project Structure
 
@@ -59,3 +58,40 @@ This project collects data from Spotify playlists and builds a music recommendat
 
    ```sh
    python main.py
+
+### Running the Recommendation System
+
+1. Open the recommendation_system.ipynb notebook.
+
+2. Load the data and run through the cells to build and evaluate the recommendation system.
+
+### Running the Web Application
+
+1. Run the Flask app to start the web server:
+
+   ```sh
+   python app.py
+
+2. Open your web browser and go to http://127.0.0.1:5000/.
+
+3. Enter the name of a song in the input field and click the "Recommend" button to get song recommendations.
+
+## Project Files Explanation
+
+### `get_token.py`
+This script obtains an access token from the Spotify API. The token is required to make authenticated requests to the Spotify Web API.
+
+### `spotify_data.py`
+This script fetches data from a Spotify playlist, including track details, album information, and audio features. It uses the Spotipy library to interact with the Spotify API.
+
+### `get_playlist.py`
+This script collects data from multiple Spotify playlists by calling the `get_trending_playlist_data` function from `spotify_data.py`. It combines the data into a single DataFrame and saves it to a CSV file.
+
+### `main.py`
+This is the main script that orchestrates the data collection process. It uses `get_token.py` to get an access token and `get_playlist.py` to collect data from specified playlists.
+
+### `app.py`
+This is the Flask web application that provides a simple user interface for the recommendation system. It allows users to input a song name and get recommendations.
+
+### `recommendation_system.ipynb`
+This Jupyter Notebook contains the code to build and evaluate the music recommendation system. It uses cosine similarity to recommend songs based on the input song name.

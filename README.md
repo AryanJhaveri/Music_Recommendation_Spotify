@@ -1,6 +1,5 @@
-# This Is A Bollywood Song Recommendation System
 
-# Spotify Playlist Data Collector and Recommendation System
+# Song Recommendation System
 
 This project collects data from Spotify playlists and builds a music recommendation system. The recommendation system suggests songs based on the input song name using cosine similarity.
 
